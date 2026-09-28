@@ -1,0 +1,27 @@
+name: test
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  install:
+    # brew only installs formulae from a tap, so this one goes into a local tap first
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-15, macos-15-intel, ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install aztree through Homebrew and run it
+        run: |
+          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv 2>/dev/null || brew shellenv)"
+          brew tap-new --no-git local/test
+          cp Formula/aztree.rb "$(brew --repository)/Library/Taps/local/homebrew-test/Formula/"
+          brew install local/test/aztree
+          brew test local/test/aztree
+          aztree --version
+          AZTREE_HOME="$RUNNER_TEMP/home" aztree --demo --no-open
+          test -s "$RUNNER_TEMP/home/aztree.html"

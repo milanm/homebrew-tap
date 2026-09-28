@@ -1,0 +1,35 @@
+name: update
+# Once a day (or on demand), point the formula at aztree's latest release and test it.
+on:
+  schedule:
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: write
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Point the formula at aztree's latest release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag=$(gh release view --repo milanm/aztree --json tagName --jq .tagName)
+          version=${tag#v}
+          current=$(sed -n 's/^  version "\(.*\)"/\1/p' Formula/aztree.rb)
+          if [ "$version" = "$current" ]; then echo "already at $version"; exit 0; fi
+          mkdir -p dl
+          gh release download "$tag" --repo milanm/aztree --dir dl --pattern 'aztree-osx-*' --pattern 'aztree-linux-*'
+          sed -i "s/^  version \".*\"/  version \"$version\"/; s#/download/v[^/]*/#/download/$tag/#" Formula/aztree.rb
+          for rid in osx-arm64 osx-x64 linux-arm64 linux-x64; do
+            sum=$(sha256sum "dl/aztree-$rid" | cut -d' ' -f1)
+            sed -i "/aztree-$rid\"/{n;s/sha256 \".*\"/sha256 \"$sum\"/}" Formula/aztree.rb
+          done
+          git diff
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "aztree $version"
+          git push
+          gh workflow run test.yml --ref main   # a push made with this token doesn't start other workflows by itself
