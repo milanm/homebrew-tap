@@ -1,8 +1,8 @@
 name: update
-# Once a day (or on demand), point the formula at aztree's latest release and test it.
+# Every hour (or on demand), point the formula at aztree's latest release and test it.
 on:
   schedule:
-    - cron: "17 6 * * *"
+    - cron: "17 * * * *"  # a run with no new release ends in seconds
   workflow_dispatch:
 permissions:
   contents: write
