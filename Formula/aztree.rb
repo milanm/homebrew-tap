@@ -2,28 +2,28 @@
 class Aztree < Formula
   desc "See where your Azure money goes, as a treemap in one offline HTML page"
   homepage "https://github.com/milanm/aztree"
-  version "0.7.0"
+  version "0.8.3"
   license "MIT"
 
   on_macos do
     on_arm do
-      url "https://github.com/milanm/aztree/releases/download/v0.7.0/aztree-osx-arm64"
-      sha256 "56d10a414ad411faf17c54ac8a98217be4967a10743d976e8d53e115a176c1aa"
+      url "https://github.com/milanm/aztree/releases/download/v0.8.3/aztree-osx-arm64"
+      sha256 "5732c5ac03ddc622029c88911df4d38b0cc3143757d88e00042083469f78979b"
     end
     on_intel do
-      url "https://github.com/milanm/aztree/releases/download/v0.7.0/aztree-osx-x64"
-      sha256 "9f2adca6192ef4ebcfdf5604869de51532163db326526317d012f5dbca1ef20b"
+      url "https://github.com/milanm/aztree/releases/download/v0.8.3/aztree-osx-x64"
+      sha256 "8d5f6e0c5d69bb9a6d0f7fd7c89a70cc0d97d91ef7f165195925627f14b8cc10"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/milanm/aztree/releases/download/v0.7.0/aztree-linux-arm64"
-      sha256 "56d82ce854d5ef591aa04e74221ca6d856e38887ea7d611e92bb27c9c282d95b"
+      url "https://github.com/milanm/aztree/releases/download/v0.8.3/aztree-linux-arm64"
+      sha256 "ac5040512d06da2a93789157468899e41f43ac969f80bccd480d3ee3044d1d9b"
     end
     on_intel do
-      url "https://github.com/milanm/aztree/releases/download/v0.7.0/aztree-linux-x64"
-      sha256 "4e5d1c8bf58b722159fa65c95a2117fc5c00f3e005406db9aba4a123eab37d7c"
+      url "https://github.com/milanm/aztree/releases/download/v0.8.3/aztree-linux-x64"
+      sha256 "cc07adf0590311b2bdb35a150a0db4e1d53800ea6932838caae53bc91e8c820b"
     end
   end
 
